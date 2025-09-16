@@ -89,7 +89,6 @@
     const ACTIVATION_KEY = 'altrucho';
     document.getElementById('activate-form').addEventListener('submit', (e) => {
       e.preventDefault();
-      const name = (document.getElementById('name').value || '').trim();
       const code = document.getElementById('code').value.trim();
       if(code !== ACTIVATION_KEY){
         alert('❌ Código incorrecto.');
@@ -97,10 +96,8 @@
       }¡
       // Guardamos una marca en localStorage y redirigimos
       localStorage.setItem('pase_ok', '1');
-      // también en querystring por si no hay localStorage
-      const qs = new URLSearchParams();
-      if(name) qs.set('nombre');
-      window.location.href = 'premio.html' + (qs.toString() ? ('?' + qs.toString()) : '');
+      // también en querystring por si no hay 
+      window.location.href = 'premio.html';
     });
   </script>
 </body>
