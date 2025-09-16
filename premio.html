@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>🎉 Premio — Entrada a Parque Warner</title>
+  <title>🎉 ¡Premio!</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     :root{
@@ -86,7 +86,7 @@
 <body>
   <div class="wrap">
     <section class="card">
-      <h1>🎉 ¡Enhorabuena, <span id="nombre">Alejandra</span>!</h1>
+      <h1>🎉 ¡Enhorabuena, Alejandra!</h1>
       <p class="lead">Has desbloqueado tu premio personalizado.</p>
 
       <div class="ticket">
@@ -105,39 +105,12 @@
   <div class="confetti" aria-hidden="true"></div>
 
   <script>
-    // Comprobamos si llega desde activación
-    const params = new URLSearchParams(location.search);
-    const nameQS = params.get('nombre');
-    const nameLS = localStorage.getItem('pase_nombre');
-    const ok = localStorage.getItem('pase_ok') === '1';
-
-    const nombre = nameQS || nameLS || 'Invitado';
-    document.getElementById('nombre').textContent = nombre;
-    document.getElementById('t_name').textContent = nombre;
-
-    // Código "bonito" pseudo-único (no sensible)
     const niceCode = 'WARNER-' + Math.random().toString(36).slice(2,6).toUpperCase() + '-' + Date.now().toString().slice(-4);
     document.getElementById('t_code').textContent = niceCode;
 
-    // Fecha de hoy
     const d = new Date();
-    const fmt = d.toLocaleDateString('es-ES', {year:'numeric', month:'2-digit', day:'2-digit'});
-    document.getElementById('t_date').textContent = fmt;
+    document.getElementById('t_date').textContent = d.toLocaleDateString('es-ES', {year:'numeric', month:'2-digit', day:'2-digit'});
 
-    // Confetti simple
-    const container = document.querySelector('.confetti');
-    for(let i=0;i<120;i++){
-      const el = document.createElement('i');
-      el.style.left = Math.random()*100 + 'vw';
-      el.style.animationDuration = (6 + Math.random()*5) + 's';
-      el.style.background = ['#ffd166','#06d6a0','#8a6bff','#ef476f','#96f'][(Math.random()*5)|0];
-      el.style.width = (6 + Math.random()*6) + 'px';
-      el.style.height = (8 + Math.random()*10) + 'px';
-      el.style.animationDelay = (Math.random()*2) + 's';
-      container.appendChild(el);
-    }
-
-    // Imprimir
     document.getElementById('btnPrint').addEventListener('click', () => window.print());
   </script>
 </body>
