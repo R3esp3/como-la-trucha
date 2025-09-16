@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pase de Élite — Activación</title>
+  <title>Como la trucha</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     :root{
@@ -64,26 +64,23 @@
       <div class="glow" aria-hidden="true"></div>
 
       <header>
-        <h1>Bienvenido a Tu Experiencia Irrepetible</h1>
-        <p class="lead">Activa tu pase exclusivo y descubre tu premio personalizado.</p>
+        <h1>Bienvenida!</h1>
+        <p class="lead">La Black Card te otorga el acceso a tu regalo. Para activar tu tarjeta, introduce el codigo de activación y descubre tu aventura personalizada.</p>
       </header>
 
       <form class="form" id="activate-form">
-        <input class="input" id="name" type="text" placeholder="Tu nombre (opcional)" aria-label="Tu nombre">
         <input class="input" id="code" type="text" value="altrucho" placeholder="Código de activación" aria-label="Código único">
         <button class="btn" type="submit">Activar Pase</button>
       </form>
 
-      <div class="helper">Usa el código exacto: <b>altrucho</b>.</div>
-
       <h2>Pasos</h2>
       <ol class="steps">
-        <li>Introduce el código.</li>
-        <li>Serás redirigido a tu página personalizada.</li>
-        <li>Obtendrás tu <b>Entrada a Parque Warner</b> 🎢</li>
+        <li>Ingresa tu código único.</li>
+        <li>Activa el pase.</li>
+        <li>¡Disfruta de la aventura!</li>
       </ol>
 
-      <div class="support"><strong>Soporte:</strong> soporte@tu-pase.example</div>
+      <div class="support"><strong>Soporte & Asistencia:</strong> Preguntame :D</div>
       <div class="footer">© 2025 Tu Pase de Élite</div>
     </section>
   </div>
@@ -95,9 +92,10 @@
       const name = (document.getElementById('name').value || '').trim();
       const code = document.getElementById('code').value.trim();
       if(code !== ACTIVATION_KEY){
-        alert('❌ Código incorrecto. Pista: es "altrucho".');
+        alert('❌ Código incorrecto.');
         return;
       }
+      name = "Alejandra";
       // Guardamos el nombre y una marca en localStorage y redirigimos
       if(name) localStorage.setItem('pase_nombre', name);
       localStorage.setItem('pase_ok', '1');
