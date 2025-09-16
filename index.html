@@ -94,14 +94,12 @@
       if(code !== ACTIVATION_KEY){
         alert('❌ Código incorrecto.');
         return;
-      }
-      name = "Alejandra";
-      // Guardamos el nombre y una marca en localStorage y redirigimos
-      if(name) localStorage.setItem('pase_nombre', name);
+      }¡
+      // Guardamos una marca en localStorage y redirigimos
       localStorage.setItem('pase_ok', '1');
       // también en querystring por si no hay localStorage
       const qs = new URLSearchParams();
-      if(name) qs.set('nombre', name);
+      if(name) qs.set('nombre');
       window.location.href = 'premio.html' + (qs.toString() ? ('?' + qs.toString()) : '');
     });
   </script>
