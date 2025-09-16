@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🎉 Premio — Entrada a Parque Warner</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f0f11;
+      --card: rgba(18,18,22,.72);
+      --ink:#f0f2f7;
+      --muted:#9aa3ae;
+      --accent:#ffd166;
+      --accent-2:#ff9f1c;
+      --radius:16px;
+    }
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color: var(--ink);
+      background: var(--bg) center/cover fixed url("tech-bg.png");
+    }
+    body::before{
+      content:""; position:fixed; inset:0;
+      background:
+        radial-gradient(1200px 600px at 80% -10%, rgba(255,209,102,.12), transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.55));
+      pointer-events:none;
+    }
+    .wrap{ min-height:100%; display:grid; place-items:center; padding: clamp(20px, 3vw, 40px); }
+    .card{
+      position:relative; width:min(900px, 94vw);
+      border-radius:calc(var(--radius) + 6px);
+      background: var(--card);
+      backdrop-filter: blur(8px) saturate(120%);
+      box-shadow: 0 20px 60px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.05);
+      padding: clamp(22px, 3.6vw, 42px);
+      border: 1px solid rgba(255,255,255,.06);
+      overflow:hidden;
+    }
+    h1{ margin:0 0 .6rem; font-size:clamp(26px,2.6vw,36px); font-weight:800 }
+    .lead{ color:var(--muted); margin:0 0 1.2rem }
+    .ticket{
+      margin-top:16px;
+      background: #121318;
+      border:1px dashed rgba(255,255,255,.18);
+      border-radius:18px;
+      padding:18px 18px 20px;
+      display:grid; gap:10px;
+    }
+    .ticket .title{
+      font-weight:800; letter-spacing:.3px; font-size:clamp(18px,2vw,22px);
+    }
+    .badge{
+      display:inline-block; padding:6px 10px; border-radius:999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color:#231b0e; font-weight:800;
+    }
+    .row{ display:flex; gap:16px; flex-wrap:wrap; align-items:center }
+    .row > div{ flex:1 1 220px; background:#0e0f14; border:1px solid rgba(255,255,255,.06); padding:12px 14px; border-radius:10px }
+    .hint{ color:#aab1bd; font-size:13px; margin-top:8px }
+    .actions{ margin-top:16px; display:flex; gap:10px; flex-wrap:wrap }
+    .btn{
+      height:44px; padding:0 16px; border-radius:10px; border:0; cursor:pointer;
+      font-weight:800; letter-spacing:.2px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+      color:#1b1208;
+      box-shadow: 0 10px 28px rgba(255,159,28,.35);
+    }
+    .ghost{ background:transparent; color:#eaeef6; border:1px solid rgba(255,255,255,.14) }
+    .footer{ margin-top: 20px; font-size:13px; color:#97a0ac }
+    /* confetti */
+    .confetti{ position:fixed; inset:0; pointer-events:none; overflow:hidden }
+    .confetti i{
+      position:absolute; width:8px; height:14px; background: white;
+      opacity:.9; transform: translateY(-10vh) rotate(0deg);
+      animation: fall linear forwards;
+    }
+    @keyframes fall {
+      to { transform: translateY(110vh) rotate(540deg); opacity:1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="card">
+      <h1>🎉 ¡Enhorabuena, <span id="nombre">Invitado</span>!</h1>
+      <p class="lead">Has desbloqueado tu premio personalizado.</p>
+
+      <div class="ticket">
+        <div class="title">Premio: <span class="badge">Entrada a Parque Warner Madrid</span></div>
+        <div class="row">
+          <div><strong>Titular</strong><br><span id="t_name">Invitado</span></div>
+          <div><strong>Código</strong><br><span id="t_code"></span></div>
+          <div><strong>Fecha</strong><br><span id="t_date"></span></div>
+        </div>
+        <div class="hint">Muestra este pase en taquilla junto a tu documento de identidad. Sujeto a condiciones del parque.</div>
+        <div class="actions">
+          <button class="btn" id="btnPrint">Descargar / Imprimir</button>
+          <a class="btn ghost" href="index.html">Volver</a>
+        </div>
+      </div>
+
+      <div class="footer">© 2025 Tu Pase de Élite</div>
+    </section>
+  </div>
+
+  <div class="confetti" aria-hidden="true"></div>
+
+  <script>
+    // Comprobamos si llega desde activación
+    const params = new URLSearchParams(location.search);
+    const nameQS = params.get('nombre');
+    const nameLS = localStorage.getItem('pase_nombre');
+    const ok = localStorage.getItem('pase_ok') === '1';
+
+    const nombre = nameQS || nameLS || 'Invitado';
+    document.getElementById('nombre').textContent = nombre;
+    document.getElementById('t_name').textContent = nombre;
+
+    // Código "bonito" pseudo-único (no sensible)
+    const niceCode = 'WARNER-' + Math.random().toString(36).slice(2,6).toUpperCase() + '-' + Date.now().toString().slice(-4);
+    document.getElementById('t_code').textContent = niceCode;
+
+    // Fecha de hoy
+    const d = new Date();
+    const fmt = d.toLocaleDateString('es-ES', {year:'numeric', month:'2-digit', day:'2-digit'});
+    document.getElementById('t_date').textContent = fmt;
+
+    // Confetti simple
+    const container = document.querySelector('.confetti');
+    for(let i=0;i<120;i++){
+      const el = document.createElement('i');
+      el.style.left = Math.random()*100 + 'vw';
+      el.style.animationDuration = (6 + Math.random()*5) + 's';
+      el.style.background = ['#ffd166','#06d6a0','#8a6bff','#ef476f','#96f'][(Math.random()*5)|0];
+      el.style.width = (6 + Math.random()*6) + 'px';
+      el.style.height = (8 + Math.random()*10) + 'px';
+      el.style.animationDelay = (Math.random()*2) + 's';
+      container.appendChild(el);
+    }
+
+    // Imprimir
+    document.getElementById('btnPrint').addEventListener('click', () => window.print());
+  </script>
+</body>
+</html>
