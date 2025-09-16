@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pase de Élite — Activación</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f0f11;
+      --card: rgba(18,18,22,.72);
+      --card-ink:#e9e9ee;
+      --muted:#abb0b8;
+      --primary:#8a6bff;
+      --primary-2:#ac9bff;
+      --ring: 0 0 0 3px rgba(138,107,255,.25);
+      --radius:16px;
+    }
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color: var(--card-ink);
+      background: var(--bg) center/cover fixed url("tech-bg.png");
+    }
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      background:
+        radial-gradient(1200px 600px at 80% -10%, rgba(138,107,255,.18), transparent 60%),
+        radial-gradient(900px 500px at 10% 110%, rgba(0,0,0,.35), rgba(0,0,0,.65) 60%),
+        linear-gradient(180deg, rgba(0,0,0,.30), rgba(0,0,0,.55));
+      pointer-events:none;
+    }
+    .wrap{ min-height:100%; display:grid; place-items:center; padding: clamp(20px, 3vw, 40px); }
+    .card{
+      position:relative;
+      width:min(920px, 92vw);
+      border-radius: calc(var(--radius) + 6px);
+      background: var(--card);
+      backdrop-filter: blur(8px) saturate(120%);
+      box-shadow: 0 20px 60px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.05);
+      padding: clamp(22px, 3.6vw, 42px);
+      border: 1px solid rgba(255,255,255,.06);
+    }
+    .glow{ position:absolute; inset:-2px; border-radius:inherit; background: radial-gradient(800px 200px at 60% 0%, rgba(138,107,255,.12), transparent 60%); pointer-events:none; filter: blur(10px); opacity:.9; }
+    h1{ margin:0 0 .4rem; line-height:1.05; font-weight:800; font-size: clamp(26px, 2.6vw, 38px); }
+    p.lead{ margin:.2rem 0 1.6rem; color: var(--muted); max-width: 58ch; }
+    .form{ display:flex; flex-wrap:wrap; gap:12px; align-items:center; background: rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.07); border-radius: 14px; padding:10px; max-width:760px; }
+    .input{ flex:1 1 220px; background: #0f1014; color:#e8e8f2; border:1px solid rgba(255,255,255,.08); border-radius:10px; height:46px; padding:0 14px; font-size:16px; outline:none; }
+    .input::placeholder{ color:#717784 }
+    .input:focus{ border-color: rgba(138,107,255,.65); box-shadow: var(--ring); }
+    .btn{ height:46px; padding:0 18px; border-radius:10px; border:0; cursor:pointer; background: linear-gradient(180deg, var(--primary), var(--primary-2)); color:#0b0b10; font-weight:800; box-shadow: 0 8px 20px rgba(138,107,255,.35); }
+    .helper{ margin-top:10px; color:#8a90a0; font-size:14px }
+    .steps{ margin:0; padding-left:20px; color:#cfd2d9 }
+    .steps li{ margin:.4rem 0 }
+    .support{ margin-top:1.2rem; color:#aeb5c2; font-size:15px }
+    .footer{ margin-top: 28px; font-size:13px; color:#8c92a1 }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="card">
+      <div class="glow" aria-hidden="true"></div>
+
+      <header>
+        <h1>Bienvenido a Tu Experiencia Irrepetible</h1>
+        <p class="lead">Activa tu pase exclusivo y descubre tu premio personalizado.</p>
+      </header>
+
+      <form class="form" id="activate-form">
+        <input class="input" id="name" type="text" placeholder="Tu nombre (opcional)" aria-label="Tu nombre">
+        <input class="input" id="code" type="text" value="altrucho" placeholder="Código de activación" aria-label="Código único">
+        <button class="btn" type="submit">Activar Pase</button>
+      </form>
+
+      <div class="helper">Usa el código exacto: <b>altrucho</b>.</div>
+
+      <h2>Pasos</h2>
+      <ol class="steps">
+        <li>Introduce el código.</li>
+        <li>Serás redirigido a tu página personalizada.</li>
+        <li>Obtendrás tu <b>Entrada a Parque Warner</b> 🎢</li>
+      </ol>
+
+      <div class="support"><strong>Soporte:</strong> soporte@tu-pase.example</div>
+      <div class="footer">© 2025 Tu Pase de Élite</div>
+    </section>
+  </div>
+
+  <script>
+    const ACTIVATION_KEY = 'altrucho';
+    document.getElementById('activate-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = (document.getElementById('name').value || '').trim();
+      const code = document.getElementById('code').value.trim();
+      if(code !== ACTIVATION_KEY){
+        alert('❌ Código incorrecto. Pista: es "altrucho".');
+        return;
+      }
+      // Guardamos el nombre y una marca en localStorage y redirigimos
+      if(name) localStorage.setItem('pase_nombre', name);
+      localStorage.setItem('pase_ok', '1');
+      // también en querystring por si no hay localStorage
+      const qs = new URLSearchParams();
+      if(name) qs.set('nombre', name);
+      window.location.href = 'premio.html' + (qs.toString() ? ('?' + qs.toString()) : '');
+    });
+  </script>
+</body>
+</html>
